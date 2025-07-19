@@ -134,20 +134,36 @@
       }
 
       const reader = new FileReader();
-      reader.onload = function () {
+      reader.onload = async function () {
         const base64 = reader.result.split(",")[1];
-        google.script.run.withSuccessHandler((result) => {
+
+        try {
+          const res = await fetch("https://script.google.com/macros/s/AKfycbwa6tAqhUvUls1voaKoav-9FpL41E_1_OM_Ve8PZnXc-Wq9tLRV7Sd-GKiFuCafihi8aA/exec", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, steam, filename: file.name, imageBase64: base64 })
+          });
+
+          const result = await res.json();
+
           if (result.success) {
             responseEl.textContent = "✅ 已成功登記，我們將寄出您的序號！";
             responseEl.className = "success";
             form.reset();
           } else {
-            responseEl.textContent = "❌ 發生錯誤，請稍後再試或聯繫我們。";
+            responseEl.textContent = "❌ 錯誤：" + (result.message || "請稍後再試");
             responseEl.className = "error";
           }
-          submitBtn.disabled = false;
-          submitBtn.textContent = "立即兌換 / Redeem Now";
-        }).uploadFormData(email, steam, file.name, base64);
+        } catch (err) {
+          responseEl.textContent = "❌ 發生錯誤，請稍後再試。";
+          responseEl.className = "error";
+          console.error(err);
+        }
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = "立即兌換 / Redeem Now";
       };
       reader.readAsDataURL(file);
     });
