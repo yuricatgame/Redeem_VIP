@@ -7,67 +7,119 @@
   <style>
     body {
       font-family: "Helvetica Neue", sans-serif;
-      padding: 2rem;
-      max-width: 600px;
-      margin: auto;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
     }
+
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+    }
+
+    .banner {
+      width: 100%;
+      display: block;
+    }
+
     h1 {
       font-size: 1.8rem;
-      margin-bottom: 1rem;
+      margin: 1rem 0;
+      text-align: center;
     }
+
+    .field-box {
+      background-color: #ffffff;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
     label {
       display: block;
-      margin-top: 1rem;
       font-weight: bold;
+      margin-bottom: 0.4rem;
     }
-    input, textarea {
+
+    input[type="email"],
+    input[type="text"],
+    input[type="file"] {
       width: 100%;
       padding: 0.6rem;
-      margin-top: 0.3rem;
-      box-sizing: border-box;
       font-size: 1rem;
+      box-sizing: border-box;
+      border-radius: 4px;
+      border: 1px solid #ccc;
     }
-    input[type="file"] {
-      padding: 0.2rem;
-    }
+
     button {
-      margin-top: 1.5rem;
-      padding: 0.8rem;
+      margin-top: 2rem;
+      width: 100%;
+      padding: 0.9rem;
       font-size: 1.1rem;
       font-weight: bold;
-      background-color: #0066cc;
-      color: white;
+      background-color: #ff66cc;
+      color: black;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
+      transition: background-color 0.3s;
     }
+
+    button:hover {
+      background-color: #ff85d1;
+    }
+
     button:disabled {
-      background-color: gray;
+      background-color: #e0e0e0;
+      color: #999;
       cursor: not-allowed;
     }
-    .success, .error {
+
+    .response {
       margin-top: 1rem;
       font-weight: bold;
+      text-align: center;
     }
-    .success { color: green; }
-    .error { color: red; }
+
+    .success {
+      color: green;
+    }
+
+    .error {
+      color: red;
+    }
   </style>
 </head>
 <body>
-  <h1>🎁 Steam 留言活動序號兌換</h1>
-  <form id="redeemForm">
-    <label>Email（請填寫可收信的信箱）<br><small>Email Address</small></label>
-    <input type="email" name="email" required />
+  <div class="container">
+    <!-- Banner -->
+    <img src="https://i.imgur.com/UFRY8Ay.png" class="banner" alt="活動 Banner" />
 
-    <label>Steam 使用者名稱<br><small>Steam Username</small></label>
-    <input type="text" name="steam" required />
+    <h1>🎁 Steam 留言活動序號兌換</h1>
 
-    <label>留言截圖（圖片檔）<br><small>Screenshot of your comment</small></label>
-    <input type="file" name="screenshot" accept="image/*" required />
+    <form id="redeemForm">
+      <div class="field-box">
+        <label>Email（請填寫可收信的信箱）<br><small>Email Address</small></label>
+        <input type="email" name="email" required />
+      </div>
 
-    <button type="submit" id="submitBtn">立即兌換 / Redeem Now</button>
-    <div id="response" class=""></div>
-  </form>
+      <div class="field-box">
+        <label>Steam 使用者名稱<br><small>Steam Username</small></label>
+        <input type="text" name="steam" required />
+      </div>
+
+      <div class="field-box">
+        <label>留言截圖（圖片檔）<br><small>Screenshot of your comment</small></label>
+        <input type="file" name="screenshot" accept="image/*" required />
+      </div>
+
+      <button type="submit" id="submitBtn">立即兌換 / Redeem Now</button>
+      <div id="response" class="response"></div>
+    </form>
+  </div>
 
   <script>
     const form = document.getElementById("redeemForm");
@@ -94,14 +146,14 @@
 
         if (result.success) {
           responseEl.textContent = "✅ 已成功登記，我們將寄出您的序號！";
-          responseEl.className = "success";
+          responseEl.className = "response success";
           form.reset();
         } else {
           throw new Error(result.message || "發生錯誤");
         }
       } catch (err) {
         responseEl.textContent = "❌ 發生錯誤，請稍後再試或聯繫我們。";
-        responseEl.className = "error";
+        responseEl.className = "response error";
         console.error(err);
       } finally {
         submitBtn.disabled = false;
