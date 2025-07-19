@@ -157,7 +157,7 @@
             responseEl.className = "error";
           }
         } catch (err) {
-          responseEl.textContent = "❌ 發生錯誤，請稍後再試。";
+          responseEl.textContent = "❌ 錯誤：" + (result.message || "請稍後再試");
           responseEl.className = "error";
           console.error(err);
         }
