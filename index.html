@@ -80,10 +80,10 @@
 </head>
 <body>
   <img class="banner" src="https://i.imgur.com/xG0Qta2.png" alt="活動 Banner" />
-  <h1>🎁 Steam 留言活動序號兌換</h1>
+  <h1>🎁 Steam 留言活動序號兌換 / Steam Comment Campaign Code Redemption</h1>
   <form id="redeemForm">
     <div class="form-box">
-      <label>Email（請填寫可收信的信箱）<br><small>Email Address</small></label>
+      <label>Email（請填寫可收信的信箱）<br><small>Email (Please provide a valid email address)</small></label>
       <input type="email" name="email" required />
     </div>
 
@@ -138,7 +138,7 @@
         const base64 = reader.result.split(",")[1];
 
         try {
-          const res = await fetch("https://script.google.com/macros/s/AKfycbwa6tAqhUvUls1voaKoav-9FpL41E_1_OM_Ve8PZnXc-Wq9tLRV7Sd-GKiFuCafihi8aA/exec", {
+          const res = await fetch("https://script.google.com/macros/s/AKfycbzop_cwQOpB0lXXEf8x06T-DyCGMSceZmAxAAyQkCppsgw2YaBOlEd5SECYlGTqTjCaQg/exec", {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
