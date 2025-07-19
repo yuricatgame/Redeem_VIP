@@ -7,199 +7,149 @@
   <style>
     body {
       font-family: "Helvetica Neue", sans-serif;
-      background-color: #f5f5f5;
-      margin: 0;
-      padding: 0;
+      padding: 2rem;
+      max-width: 700px;
+      margin: auto;
+      background-color: #f8f8f8;
     }
-
-    .container {
-      max-width: 600px;
-      margin: 2rem auto;
-      padding: 1.5rem;
-    }
-
-    .banner {
-      width: 100%;
-      display: block;
-    }
-
     h1 {
       font-size: 1.8rem;
-      margin: 1rem 0;
+      margin-bottom: 1rem;
       text-align: center;
     }
-
-    .field-box {
-      background-color: #ffffff;
-      padding: 1rem;
-      margin-top: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    .banner {
+      width: 100%;
+      max-width: 700px;
+      margin-bottom: 2rem;
+      border-radius: 10px;
     }
-
+    .form-box {
+      background: white;
+      border-radius: 10px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
     label {
       display: block;
       font-weight: bold;
-      margin-bottom: 0.4rem;
     }
-
-    input[type="email"],
-    input[type="text"],
-    input[type="file"] {
+    small {
+      font-weight: normal;
+    }
+    input, textarea {
       width: 100%;
       padding: 0.6rem;
+      margin-top: 0.3rem;
+      margin-bottom: 0.5rem;
       font-size: 1rem;
       box-sizing: border-box;
-      border-radius: 4px;
+      border-radius: 5px;
       border: 1px solid #ccc;
     }
-
+    input[type="file"] {
+      padding: 0.2rem;
+    }
     button {
-      margin-top: 2rem;
       width: 100%;
-      padding: 0.9rem;
+      margin-top: 1rem;
+      padding: 0.8rem;
       font-size: 1.1rem;
       font-weight: bold;
-      background-color: #ff66cc;
+      background-color: hotpink;
       color: black;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.3s;
     }
-
-    button:hover {
-      background-color: #ff85d1;
-    }
-
     button:disabled {
-      background-color: #e0e0e0;
-      color: #999;
+      background-color: gray;
       cursor: not-allowed;
     }
-
-    .response {
+    .success, .error {
       margin-top: 1rem;
       font-weight: bold;
       text-align: center;
     }
-
-    .success {
-      color: green;
-    }
-
-    .error {
-      color: red;
-    }
-
-    .notes {
-      background-color: #ffffff;
-      padding: 1rem;
+    .success { color: green; }
+    .error { color: red; }
+    ul {
       margin-top: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      font-size: 0.95rem;
-    }
-
-    .notes li {
-      margin-bottom: 0.6rem;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Banner -->
-    <img src="https://i.imgur.com/UFRY8Ay.png" class="banner" alt="活動 Banner" />
+  <img class="banner" src="https://i.imgur.com/xG0Qta2.png" alt="活動 Banner" />
+  <h1>🎁 Steam 留言活動序號兌換</h1>
+  <form id="redeemForm">
+    <div class="form-box">
+      <label>Email（請填寫可收信的信箱）<br><small>Email Address</small></label>
+      <input type="email" name="email" required />
+    </div>
 
-    <h1>🎁 Steam 留言活動序號兌換</h1>
+    <div class="form-box">
+      <label>Steam 使用者名稱<br><small>Steam Username</small></label>
+      <input type="text" name="steam" required />
+    </div>
 
-    <form id="redeemForm">
-      <div class="field-box">
-        <label>Email（請填寫可收信的信箱）<br><small>Email Address</small></label>
-        <input type="email" name="email" required />
-      </div>
+    <div class="form-box">
+      <label>留言截圖（圖片檔）<br><small>Screenshot of your comment</small></label>
+      <input type="file" name="screenshot" accept="image/*" required />
+    </div>
 
-      <div class="field-box">
-        <label>Steam 使用者名稱<br><small>Steam Username</small></label>
-        <input type="text" name="steam" required />
-      </div>
+    <button type="submit" id="submitBtn">立即兌換 / Redeem Now</button>
+    <div id="response" class=""></div>
+  </form>
 
-      <div class="field-box">
-        <label>留言截圖（圖片檔）<br><small>Screenshot of your comment</small></label>
-        <input type="file" name="screenshot" accept="image/*" required />
-      </div>
-
-      <button type="submit" id="submitBtn">立即兌換 / Redeem Now</button>
-      <div id="response" class="response"></div>
-    </form>
-
-    <!-- 注意事項 -->
-    <ul class="notes">
-      <li>請填寫有效 Email 及兌換序號，即可領取 Steam 序號。 / Submit a valid email and redemption code to receive your Steam key.</li>
-      <li>序號將自動寄送至您的信箱，不可重複領取、轉讓或折現。 / The key will be sent automatically to your email. It cannot be redeemed more than once, transferred, or exchanged for cash.</li>
-      <li>信內附有 <a href="https://docs.google.com/document/d/1umkjX6z5Zqme5V87quc-zJJkk7rDMZ3zxeWbvgpJ7Qo/edit?usp=sharing" target="_blank">Steam 註冊與序號啟用教學</a>。 / The email will include links to <a href="https://docs.google.com/document/d/1umkjX6z5Zqme5V87quc-zJJkk7rDMZ3zxeWbvgpJ7Qo/edit?usp=sharing" target="_blank">Steam registration and key activation guides</a>.</li>
-      <li>若序號遺失或信件誤刪，恕不補發。 / No replacement will be issued if the code is lost or the email is deleted.</li>
-      <li>若系統異常、濫用或違規行為，主辦方保留終止或更改活動之權利。 / The organizer reserves the right to cancel or modify the event due to system errors, abuse, or violations.</li>
-      <li>提供之 Email 僅用於本次寄送，不作其他用途。 / Your email is used solely for this redemption and will not be used for any other purpose.</li>
-      <li>聯絡信箱：yuricatgame@gmail.com / Contact: yuricatgame@gmail.com</li>
-    </ul>
-  </div>
+  <ul>
+    <li>請填寫有效 Email 及兌換序號，即可領取 Steam 序號。 / Submit a valid email and redemption code to receive your Steam key.</li>
+    <li>序號將自動寄送至您的信箱，不可重複領取、轉讓或折現。 / The key will be sent automatically to your email. It cannot be redeemed more than once, transferred, or exchanged for cash.</li>
+    <li>信內附有 <a href="https://docs.google.com/document/d/1umkjX6z5Zqme5V87quc-zJJkk7rDMZ3zxeWbvgpJ7Qo/edit?usp=sharing" target="_blank">Steam 註冊與序號啟用教學</a>。 / The email will include links to <a href="https://docs.google.com/document/d/1umkjX6z5Zqme5V87quc-zJJkk7rDMZ3zxeWbvgpJ7Qo/edit?usp=sharing" target="_blank">Steam registration and key activation guides</a>.</li>
+    <li>若序號遺失或信件誤刪，恕不補發。 / No replacement will be issued if the code is lost or the email is deleted.</li>
+    <li>若系統異常、濫用或違規行為，主辦方保留終止或更改活動之權利。 / The organizer reserves the right to cancel or modify the event due to system errors, abuse, or violations.</li>
+    <li>提供之 Email 僅用於本次寄送，不作其他用途。 / Your email is used solely for this redemption and will not be used for any other purpose.</li>
+    <li>聯絡信箱：yuricatgame@gmail.com / Contact: yuricatgame@gmail.com</li>
+  </ul>
 
   <script>
     const form = document.getElementById("redeemForm");
     const submitBtn = document.getElementById("submitBtn");
     const responseEl = document.getElementById("response");
-    const fileInput = form.querySelector('input[type="file"]');
-    const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-
-      const file = fileInput.files[0];
-      if (!file) {
-        responseEl.textContent = "❌ 請選擇一張圖片。";
-        responseEl.className = "response error";
-        return;
-      }
-
-      if (file.size > MAX_FILE_SIZE) {
-        responseEl.textContent = "❌ 圖片大小不可超過 2MB，請重新選擇。";
-        responseEl.className = "response error";
-        return;
-      }
-
       submitBtn.disabled = true;
       submitBtn.textContent = "上傳中... / Uploading...";
-      responseEl.textContent = "";
 
-      const formData = new FormData(form);
+      const email = form.email.value.trim();
+      const steam = form.steam.value.trim();
+      const file = form.screenshot.files[0];
 
-      try {
-        const res = await fetch(
-          "https://script.google.com/macros/s/AKfycbyVbVQBVZdXrvYzA3xscjtx6pLL4_XBkgXO2Ek943RL64fZxW83Hh2ds1931BI4ADbATQ/exec",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        const result = await res.json();
-
-        if (result.success) {
-          responseEl.textContent = "✅ 已成功登記，我們將寄出您的序號！";
-          responseEl.className = "response success";
-          form.reset();
-        } else {
-          throw new Error(result.message || "發生錯誤");
-        }
-      } catch (err) {
-        responseEl.textContent = "❌ 發生錯誤，請稍後再試或聯繫我們。";
-        responseEl.className = "response error";
-        console.error(err);
-      } finally {
+      if (!file || file.size > 2 * 1024 * 1024) {
+        responseEl.textContent = "❌ 圖片大小不可超過 2MB";
+        responseEl.className = "error";
         submitBtn.disabled = false;
         submitBtn.textContent = "立即兌換 / Redeem Now";
+        return;
       }
+
+      const reader = new FileReader();
+      reader.onload = function () {
+        const base64 = reader.result.split(",")[1];
+        google.script.run.withSuccessHandler((result) => {
+          if (result.success) {
+            responseEl.textContent = "✅ 已成功登記，我們將寄出您的序號！";
+            responseEl.className = "success";
+            form.reset();
+          } else {
+            responseEl.textContent = "❌ 發生錯誤，請稍後再試或聯繫我們。";
+            responseEl.className = "error";
+          }
+          submitBtn.disabled = false;
+          submitBtn.textContent = "立即兌換 / Redeem Now";
+        }).uploadFormData(email, steam, file.name, base64);
+      };
+      reader.readAsDataURL(file);
     });
   </script>
 </body>
