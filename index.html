@@ -144,14 +144,14 @@
         formData.append("imageBase64", base64);
 
         try {
-          const res = await fetch("https://script.google.com/macros/s/AKfycbzzC6QAnwY_yP2dptNo5rP4zHlOEGFctRpfnziWrizyeJMbKBpWcE4KlLZBHz51tlNoow/exec", {
+          const res = await fetch("https://script.google.com/macros/s/AKfycbwsC86Z7LoYQfIsVvmWqVdKzQUqTIFFSPzrG7N55ZTO5SURJftZGvN9wU_y2RwFfzDeCg/exec", {
             method: "POST",
             body: formData
           });
 
           const result = await res.json();
           if (result.success) {
-            responseEl.textContent = "✅ 已成功登記，我們將寄出您的序號！";
+            responseEl.textContent = "✅ 已成功登記，我們將於審核後寄出您的序號！ / ✅ Registration Successful！We will send your redemption code after verification is completed.";
             responseEl.className = "success";
             form.reset();
           } else {
