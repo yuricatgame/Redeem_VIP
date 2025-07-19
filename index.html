@@ -91,6 +91,19 @@
     .error {
       color: red;
     }
+
+    .notes {
+      background-color: #ffffff;
+      padding: 1rem;
+      margin-top: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      font-size: 0.95rem;
+    }
+
+    .notes li {
+      margin-bottom: 0.6rem;
+    }
   </style>
 </head>
 <body>
@@ -119,17 +132,45 @@
       <button type="submit" id="submitBtn">立即兌換 / Redeem Now</button>
       <div id="response" class="response"></div>
     </form>
+
+    <!-- 注意事項 -->
+    <ul class="notes">
+      <li>請填寫有效 Email 及兌換序號，即可領取 Steam 序號。 / Submit a valid email and redemption code to receive your Steam key.</li>
+      <li>序號將自動寄送至您的信箱，不可重複領取、轉讓或折現。 / The key will be sent automatically to your email. It cannot be redeemed more than once, transferred, or exchanged for cash.</li>
+      <li>信內附有 <a href="https://docs.google.com/document/d/1umkjX6z5Zqme5V87quc-zJJkk7rDMZ3zxeWbvgpJ7Qo/edit?usp=sharing" target="_blank">Steam 註冊與序號啟用教學</a>。 / The email will include links to <a href="https://docs.google.com/document/d/1umkjX6z5Zqme5V87quc-zJJkk7rDMZ3zxeWbvgpJ7Qo/edit?usp=sharing" target="_blank">Steam registration and key activation guides</a>.</li>
+      <li>若序號遺失或信件誤刪，恕不補發。 / No replacement will be issued if the code is lost or the email is deleted.</li>
+      <li>若系統異常、濫用或違規行為，主辦方保留終止或更改活動之權利。 / The organizer reserves the right to cancel or modify the event due to system errors, abuse, or violations.</li>
+      <li>提供之 Email 僅用於本次寄送，不作其他用途。 / Your email is used solely for this redemption and will not be used for any other purpose.</li>
+      <li>聯絡信箱：yuricatgame@gmail.com / Contact: yuricatgame@gmail.com</li>
+    </ul>
   </div>
 
   <script>
     const form = document.getElementById("redeemForm");
     const submitBtn = document.getElementById("submitBtn");
     const responseEl = document.getElementById("response");
+    const fileInput = form.querySelector('input[type="file"]');
+    const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+
+      const file = fileInput.files[0];
+      if (!file) {
+        responseEl.textContent = "❌ 請選擇一張圖片。";
+        responseEl.className = "response error";
+        return;
+      }
+
+      if (file.size > MAX_FILE_SIZE) {
+        responseEl.textContent = "❌ 圖片大小不可超過 2MB，請重新選擇。";
+        responseEl.className = "response error";
+        return;
+      }
+
       submitBtn.disabled = true;
       submitBtn.textContent = "上傳中... / Uploading...";
+      responseEl.textContent = "";
 
       const formData = new FormData(form);
 
